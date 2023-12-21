@@ -14,7 +14,7 @@ export const POST = async (req: NextRequest) => {
             attributes: {},
         });
 
-        const authRequest = await auth.handleRequest(req.method, context);
+        const authRequest = auth.handleRequest(req.method, context);
         authRequest.setSession(session);
 
         return new Response(
@@ -29,6 +29,7 @@ export const POST = async (req: NextRequest) => {
         if (e instanceof LuciaError &&
             (e.message === "AUTH_INVALID_KEY_ID" || e.message === "AUTH_INVALID_PASSWORD")
         ) {
+            console.error(e.message);
             // user does not exist or invalid password
             return NextResponse.json(
                 {
